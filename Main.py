@@ -1,9 +1,9 @@
 from lib.Eventos import *
 from lib.Game import *
+from lib.configuracion_ventana import *
 
 if __name__=='__main__':
-	eventos = Eventos()
-	game = Game(eventos)
+	game = Game()
 	while game.ventanaActiva():
 		eventos.read()
 		game.next()
