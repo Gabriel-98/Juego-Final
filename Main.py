@@ -1,4 +1,3 @@
-from lib.Eventos import *
 from lib.Game import *
 from lib.configuracion_ventana import *
 

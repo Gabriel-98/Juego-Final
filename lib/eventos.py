@@ -2,7 +2,7 @@ import pygame
 
 class Eventos(object):
 	def __init__(self):
-		self.teclas = {chr(x): False for x in range(97,123)}
+		#self.teclas = {chr(x): False for x in range(97,123)}
 		self.observadoresVentana = []
 		self.observadoresTeclado = []
 		self.observadoresMouse = []

@@ -1,17 +1,20 @@
 import pygame
-from lib.Eventos import *
-ANCHO = 800
-ALTO = 600
+from lib.eventos import *
+ANCHO = 860
+ALTO = 480
 
 pygame.init()
 ventana = pygame.display.set_mode((ANCHO,ALTO))
 eventos = Eventos()
 
+botonArriba = "up"
+botonAbajo = "down"
 botonIzquierda = "left"
 botonDerecha = "right"
-botonSaltar = "space"
-botonDash = "d"
-botonGolpe1 = "a"
-botonGolpe2 = "s"
-botonAtras = "s"
-botonAceptar = "enter"
+botonSaltar = "up"
+botonDash = "e"
+botonGolpe1 = "q"
+botonGolpe2 = "w"
+botonPausa = "enter"
+botonSeleccionar = "q"
+botonAtras = "w"
