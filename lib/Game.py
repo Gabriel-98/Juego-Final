@@ -6,19 +6,22 @@ class Game(object):
 	def __init__(self):
 		eventos.addObserverVentana(self)
 		self.cerrar = False
-		self.vista = "MenuPrincipal"
+		self.vista = "Prologo"
+		self.prologo = Prologo()
 		self.nivel1 = Nivel1()
 		self.nivel2 = Nivel2()
 		self.nivel3 = Nivel3()
 		self.menuPrincipal = MenuPrincipal()
-		self.menuControles = MenuControles("MenuPrincipal")
+		self.menuControles = MenuControles("Menu Principal")
 		self.menuCreditos = MenuCreditos()
-		self.menuPrincipal.iniciar()
+		self.prologo.iniciar()
 	def updateVentana(self):
 		self.cerrar = True
 	def iniciarVistaActual(self):
 		if self.vista == "MenuPrincipal":
 			self.menuPrincipal.iniciar()
+		elif self.vista == "Prologo":
+			self.prologo.iniciar()
 		elif self.vista == "Nivel1":
 			self.nivel1.iniciar()
 		elif self.vista == "Nivel2":
@@ -32,6 +35,8 @@ class Game(object):
 	def next(self):
 		if self.vista == "MenuPrincipal":
 			self.ejecutarMenuPrincipal()
+		if self.vista == "Prologo":
+			self.ejecutarPrologo()
 		elif self.vista == "Nivel1":
 			self.ejecutarNivel1()
 		elif self.vista == "Nivel2":
@@ -45,6 +50,12 @@ class Game(object):
 		elif self.vista == "Salir":
 			self.cerrar = True
 		pygame.display.update()
+	def ejecutarPrologo(self):
+		print(self.vista)
+		self.vista = self.prologo.next()
+		if self.vista != "Prologo":
+			self.prologo.finalizar()
+			self.iniciarVistaActual()
 	def ejecutarNivel1(self):
 		self.vista = self.nivel1.next()
 		if self.vista != "Nivel1":

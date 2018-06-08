@@ -20,21 +20,17 @@ class Personaje(pygame.sprite.Sprite):
 		if movimiento in self.movimientos:
 			self.movimientoActual = movimiento
 			self.secuencia = SecuenciaImagenes(self.movimientos[self.movimientoActual])
-		
-
 
 class SecuenciaImagenes(object):
 	def __init__(self, lista_rect):
 		self.lista_rect = lista_rect
 		self.id_rect = 0
 	def hasNext(self):
-		if self.id_rect < len(self.lista_rect):
+		if self.id_rect + 1 < len(self.lista_rect):
 			return True
 		return False
 	def next(self):
-		while self.id_rect < len(self.lista_frecuencias) - 1 and self.lista_frecuencias[self.id_rect] < 1:
+		if self.id_rect + 1 < len(self.lista_rect):
 			self.id_rect += 1
-		if self.id_rect < len(self.lista_frecuencias):
-			self.lista_frecuencias[self.id_rect] -= 1
 		return self.lista_rect[self.id_rect]
 

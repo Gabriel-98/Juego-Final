@@ -11,6 +11,8 @@ class MenuPrincipal(object):
 		self.opcionCreditos = OpcionMenu("imagenes/creditos1.png", "imagenes/creditos2.png", 430, 370)
 		self.opcionSalir = OpcionMenu("imagenes/salir1.png", "imagenes/salir2.png", 430, 430)
 		self.opciones = [self.opcionJugar, self.opcionControles, self.opcionCreditos, self.opcionSalir]
+		self.descripcionBotonSeleccionar = DescripcionBoton(botonSeleccionar, "imagenes/seleccionar.png", (20,440), (60,440))
+		self.descripcionBotones = [self.descripcionBotonSeleccionar]
 		self.vistas = ["Nivel1", "MenuControles", "MenuCreditos", "Salir"]
 		self.idOpcion = 0
 		self.activo = False
@@ -32,7 +34,7 @@ class MenuPrincipal(object):
 				self.idOpcion = (len(self.opciones) + self.idOpcion - 1) % len(self.opciones)
 			elif tecla == botonAbajo:
 				self.idOpcion = (self.idOpcion + 1) % len(self.opciones)
-			elif tecla == "enter":
+			elif tecla == botonSeleccionar:
 				self.activo = False
 			for opcion in self.opciones:
 				opcion.desactivarEstado()
@@ -41,6 +43,8 @@ class MenuPrincipal(object):
 		ventana.blit(self.fondo, [0,0])
 		for opcion in self.opciones:
 			opcion.draw()
+		for descripcionBoton in self.descripcionBotones:
+			descripcionBoton.draw()
 	def next(self):
 		self.draw()
 		if self.activo:
@@ -52,21 +56,20 @@ class MenuControles(object):
 	def __init__(self, vistaSuperior):
 		eventos.addObserverTeclado(self)
 		self.vistaSuperior = vistaSuperior
-		self.FondoMenu = pygame.image.load("imagenes/FondoMenu.jpg")
-		self.imagenTitulo = pygame.image.load("imagenes/controles_menu.png")
-		self.descripcionBotonIzquierda = DescripcionBoton(botonIzquierda, "imagenes/izquierda.png", (290,100), (360,100))
-		self.descripcionBotonDerecha = DescripcionBoton(botonDerecha, "imagenes/derecha.png", (290,140), (360,140))
-		self.descripcionBotonSaltar = DescripcionBoton(botonSaltar, "imagenes/saltar.png", (260,180), (360,180))
-		self.descripcionBotonDash = DescripcionBoton(botonDash, "imagenes/dash.png", (290,220), (360,220))
-		self.descripcionBotonGolpe1 = DescripcionBoton(botonGolpe1, "imagenes/golpe_suave.png", (290,260), (360,260))
-		self.descripcionBotonGolpe2 = DescripcionBoton(botonGolpe2, "imagenes/golpe_fuerte.png", (290,300), (360,300))
-		self.descripcionBotonPausa = DescripcionBoton(botonPausa, "imagenes/atras.png", (260,340), (360,340))
-		self.descripcionBotonSeleccionar = DescripcionBoton(botonSeleccionar, "imagenes/seleccionar.png", (290,380), (360,380))
-		self.descripcionBotonAtras = DescripcionBoton(botonAtras, "imagenes/atras.png", (290,420), (360,420))
+		self.textoTitulo = Texto("imagenes/controles_menu.png", (430, 120))
+		self.descripcionBotonIzquierda = DescripcionBoton(botonIzquierda, "imagenes/izquierda.png", (290,140), (360,140))
+		self.descripcionBotonDerecha = DescripcionBoton(botonDerecha, "imagenes/derecha.png", (290,180), (360,180))
+		self.descripcionBotonSaltar = DescripcionBoton(botonSaltar, "imagenes/saltar.png", (290,220), (360,220))
+		self.descripcionBotonDash = DescripcionBoton(botonDash, "imagenes/dash.png", (290,260), (360,260))
+		self.descripcionBotonGolpe1 = DescripcionBoton(botonGolpeSuave, "imagenes/golpe_suave.png", (290,300), (360,300))
+		self.descripcionBotonGolpe2 = DescripcionBoton(botonGolpeFuerte, "imagenes/golpe_fuerte.png", (290,340), (360,340))
+		self.descripcionBotonPausa = DescripcionBoton(botonPausa, "imagenes/pausar.png", (260,380), (360,380))
+		#self.descripcionBotonSeleccionar = DescripcionBoton(botonSeleccionar, "imagenes/seleccionar.png", (290,380), (360,380))
+		self.descripcionBotonAtras = DescripcionBoton(botonAtras, "imagenes/atras.png", (20,440), (60,440))
 		self.descripcionBotones = [self.descripcionBotonIzquierda, self.descripcionBotonDerecha,
 									self.descripcionBotonSaltar, self.descripcionBotonDash,
 									self.descripcionBotonGolpe1, self.descripcionBotonGolpe2, self.descripcionBotonPausa,
-									self.descripcionBotonSeleccionar, self.descripcionBotonAtras]
+									self.descripcionBotonAtras]
 		self.activo = False
 	def iniciar(self):
 		self.activo = True
@@ -77,14 +80,14 @@ class MenuControles(object):
 			if tecla == botonAtras:
 				self.activo = False
 	def draw(self):
-		ventana.blit(self.FondoMenu, (0,0))
 		#ventana.fill((255,125,0))
-		s = pygame.Surface([360,440])
+		s = pygame.Surface([360,400])
 		s.fill((0,0,0))
 		s.set_alpha(150)
-		ventana.blit(s, (250,0))
+		ventana.blit(s, (250,50))
 		#ventana.fill((255,125,0))
-		ventana.blit(self.imagenTitulo, (260,30))
+		#ventana.blit(self.imagenTitulo, (260,30))
+		self.textoTitulo.draw()
 		for descripcionBoton in self.descripcionBotones:
 			descripcionBoton.draw()
 	def next(self):
@@ -119,6 +122,7 @@ class MenuPausa(object):
 	def __init__(self, vistaSuperior):
 		eventos.addObserverTeclado(self)
 		self.vistaSuperior = vistaSuperior
+		self.menuControles = MenuControles("MenuPausa")
 		self.textoTitulo = Texto("imagenes/pausa.png", (430,150))
 		self.opcionReanudar = OpcionMenuPausa("imagenes/reanudar.png", (430,200))
 		self.opcionControles = OpcionMenuPausa("imagenes/controles.png", (430,240))
@@ -127,12 +131,14 @@ class MenuPausa(object):
 		self.opciones = [self.opcionReanudar, self.opcionControles,
 									self.opcionMenuPrincipal, self.opcionSalir]
 		self.vistas = [self.vistaSuperior, "MenuControles", "MenuPrincipal", "Salir"]
+		self.vista = "MenuPausa"
 		self.idOpcion = 0
 		self.activoOpcion = False
 		self.activo = False
 	def iniciar(self):
 		self.activo = True
 		self.activoOpcion = False
+		self.vista = "MenuPausa"
 		for opcion in self.opciones:
 			opcion.desactivarEstado()
 		self.opciones[0].activarEstado()
@@ -149,19 +155,34 @@ class MenuPausa(object):
 			elif tecla == botonAbajo:
 				self.idOpcion = (self.idOpcion + 1) % len(self.opciones)
 			elif tecla == botonSeleccionar:
+				if self.vistas[self.idOpcion] == "MenuControles":
+					self.vista = "MenuControles"
+					self.menuControles.iniciar()
+				else:
+					self.activo = False
+					self.activoOpcion = True
+			elif tecla == botonAtras:
 				self.activo = False
-				self.activoOpcion = True
-		#	elif tecla == botonAtras or tecla == botonPausa:
-		#		self.activo = False
 			for opcion in self.opciones:
 				opcion.desactivarEstado()
 			self.opciones[self.idOpcion].activarEstado()
+	def iniciarVistaActual(self):
+		if self.vista == "MenuControles":
+			self.menuControles.iniciar()
+	def ejecutarMenuControles(self):
+		self.vista = self.menuControles.next()
+		if self.vista != "MenuControles":
+			self.menuControles.finalizar()
 	def draw(self):
 		self.textoTitulo.draw()
 		for opcion in self.opciones:
 			opcion.draw()
 	def next(self):
-		self.draw()
+		print(self.vista)
+		if self.vista == "MenuPausa":
+			self.draw()
+		else:
+			self.ejecutarMenuControles()
 		if self.activo:
 			return "MenuPausa"
 		else:
